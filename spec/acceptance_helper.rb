@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'capybara/rspec'
 
 Dir["#{File.dirname(__FILE__)}/acceptance/support/**/*.rb"].each {|f| require f}
 
@@ -28,12 +29,19 @@ end
 
 if ENV['CGI_TEST']
 	Capybara.default_driver = :mechanize
+
 	Capybara.app_host = 'http://localhost:19292'
+
 	RSpec.configuration.filter_run_excluding :mechanize => true
 else
 	require 'tdiary/application'
-	Capybara.default_driver = :rack_test
+	Capybara.default_driver = :webkit
+
 	Capybara.app = Rack::Builder.new do
+		use Rack::Reloader
+		use Rack::Static, :urls => ["/theme"], :root => "."
+		use Rack::Static, :urls => ["/js"], :root => "."
+
 		map '/' do
 			run TDiary::Application.new(:index)
 		end
