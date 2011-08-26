@@ -2,13 +2,15 @@
 require 'acceptance_helper'
 
 feature 'リンク元設定の利用', :mechanize => true do
-	scenario 'リンク元の非表示設定' do
+	before do
 		append_default_diary
+	end
+
+	scenario 'リンク元の非表示設定' do
 		visit '/update.rb?conf=referer'
 		select('非表示', :from => 'show_referer')
 
 		click_button "OK"
-		within('title') { page.should have_content('(設定完了)') }
 
 		click_link '最新'
 		click_link "#{Date.today.strftime("%Y年%m月%d日")}"
@@ -16,12 +18,10 @@ feature 'リンク元設定の利用', :mechanize => true do
 	end
 
 	scenario 'リンク元記録の除外設定が動いている' do
-		append_default_diary
 		visit '/update.rb?conf=referer'
 		fill_in 'no_referer', :with => '^http://www\.example\.com/.*'
 
 		click_button('OK')
-		within('title') { page.should have_content('(設定完了)') }
 
 		click_link '最新'
 		click_link "#{Date.today.strftime('%Y年%m月%d日')}"
@@ -29,12 +29,10 @@ feature 'リンク元設定の利用', :mechanize => true do
 	end
 
 	pending 'リンク元記録の除外に設定していないリファラは記録されている' do
-		append_default_diary
 		visit '/update.rb?conf=referer'
 		fill_in 'no_referer', :with => '^http://www\.example\.com/.*$'
 
 		click_button('OK')
-		within('title') { page.should have_content('(設定完了)') }
 
 		page.driver.request.env['HTTP_REFERER'] = 'http://www.hsbt.org/'
 		click_link '最新'
@@ -43,7 +41,6 @@ feature 'リンク元設定の利用', :mechanize => true do
 	end
 
 	scenario 'リンク元の置換が動いている' do
-		append_default_diary
 		visit '/update.rb?conf=referer'
 		fill_in 'referer_table', :with => <<-REFERER
 ^http://www\.example\.com/.* alice
@@ -51,7 +48,6 @@ feature 'リンク元設定の利用', :mechanize => true do
 REFERER
 
 		click_button('OK')
-		within('title') { page.should have_content('(設定完了)') }
 
 		click_link '最新'
 		click_link "#{Date.today.strftime('%Y年%m月%d日')}"

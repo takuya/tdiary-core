@@ -56,7 +56,6 @@ BODY
 		fill_in "spamfilter.max_rate", :with => 50
 
 		click_button 'OK'
-		within('title') { page.should have_content('(設定完了)') }
 
 		visit "/"
 		click_link 'ツッコミを入れる'
@@ -94,7 +93,6 @@ BODY
 こんにちは!
 BODY
 		click_button 'OK'
-		within('title') { page.should have_content('(設定完了)') }
 
 		visit "/"
 		click_link 'ツッコミを入れる'

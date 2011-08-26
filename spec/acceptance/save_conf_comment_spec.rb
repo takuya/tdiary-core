@@ -10,7 +10,6 @@ feature 'ツッコミ設定の利用' do
 		select '非表示', :from => 'show_comment'
 
 		click_button "OK"
-		within('title') { page.should have_content('(設定完了)') }
 
 		click_link '最新'
 		within('div.day div.comment') {
@@ -38,7 +37,6 @@ BODY
 		fill_in 'comment_limit', :with => '1'
 
 		click_button "OK"
-		within('title') { page.should have_content('(設定完了)') }
 
 		click_link '最新'
 		within('div.day div.comment div.commentshort') {
@@ -49,7 +47,7 @@ BODY
 		}
 
 		click_link "#{Date.today.strftime('%Y年%m月%d日')}"
-		within('div.day div.comment div.commentbody') { 
+		within('div.day div.comment div.commentbody') {
 			page.should have_content "alpha"
 			page.should have_content "bravo"
 			page.should have_content "こんにちは!こんにちは!"
@@ -65,7 +63,6 @@ BODY
 		fill_in 'comment_limit_per_day', :with => '1'
 
 		click_button "OK"
-		within('title') { page.should have_content('(設定完了)') }
 
 		click_link '最新'
 		click_link "#{Date.today.strftime('%Y年%m月%d日')}"
