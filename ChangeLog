@@ -1,3 +1,6 @@
+2011-09-14  SHIBATA Hiroshi  <shibata.hiroshi@gmail.com>
+	* tdiary/config.rb: do not encode when string is already utf-8 encoding.
+
 2011-09-13  Kazuhiko  <kazuhiko@fdiary.net>
 	* tdiary/config.rb (to_native): fix a typo that may cause NoMethodError, pointed out by hsbt.
 
